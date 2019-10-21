@@ -33,6 +33,16 @@ const setNotDraggable = (element) => {
 }
 
 
+const checkIfElementDraggable = (element) => {
+    const attribute = element.getAttribute('draggable');
+    if (attribute === 'true') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 const getCellContent = () => {
     const cells = getCells();
     const cellContent = [];
