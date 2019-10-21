@@ -23,12 +23,18 @@ const getCells = () => {
 }
 
 
+const setDraggable = (element) => {
+    element.setAttribute('draggable', 'true');
+}
+
+
+
 const getCellContent = () => {
     const cells = getCells();
     const cellContent = [];
 
     for (const cell of cells) {
-        cellContent.push(cell.innerText);
+        cellContent.push(cell.textContent);
     };
 
     return cellContent;
@@ -36,7 +42,7 @@ const getCellContent = () => {
 
 
 const fieldIsTaken = () => {
-    if (event.target.innerText) {
+    if (event.target.textContent) {
         return true;
     } else {
         return false;
