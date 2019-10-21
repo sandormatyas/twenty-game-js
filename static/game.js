@@ -28,6 +28,10 @@ const setDraggable = (element) => {
 }
 
 
+const setNotDraggable = (element) => {
+    element.setAttribute('draggable', 'false');
+}
+
 
 const getCellContent = () => {
     const cells = getCells();
