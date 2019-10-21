@@ -7,15 +7,18 @@ const isIterable = (obj) => {
 
 
 const addEventListenerTo = (object, event, callback) => {
-    for (const element of object) {
-        element.addEventListener(event, callback);
+    if (isIterable(object)) {
+        for (const element of object) {
+            element.addEventListener(event, callback);
+        }
+    } else {
+        object.addEventListener(event, callback);
     }
 }
 
 
 const getCells = () => {
     const cells = document.querySelectorAll('.cell');
-    console.log(cells)
     return cells;
 }
 
@@ -24,12 +27,12 @@ const getCellContent = () => {
     const cells = getCells();
     const cellContent = [];
 
-    for (cell of cells) {
+    for (const cell of cells) {
         cellContent.push(cell.innerText);
     };
 
     return cellContent;
-};
+}
 
 
 const fieldIsTaken = () => {
@@ -37,12 +40,12 @@ const fieldIsTaken = () => {
         return true;
     } else {
         return false;
-    };
-};
+    }
+}
 
 
 const handleClick = () => {
-    console.log('hello');
+    console.log(fieldIsTaken());
 }
 
 
