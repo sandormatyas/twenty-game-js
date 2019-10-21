@@ -20,6 +20,18 @@ const getCells = () => {
 }
 
 
+const getCellContent = () => {
+    const cells = getCells();
+    const cellContent = [];
+
+    for (cell of cells) {
+        cellContent.push(cell.innerText);
+    };
+
+    return cellContent;
+};
+
+
 const handleClick = () => {
     console.log('hello');
 }
