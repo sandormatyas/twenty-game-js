@@ -32,6 +32,15 @@ const getCellContent = () => {
 };
 
 
+const fieldIsTaken = () => {
+    if (event.target.innerText) {
+        return true;
+    } else {
+        return false;
+    };
+};
+
+
 const handleClick = () => {
     console.log('hello');
 }
