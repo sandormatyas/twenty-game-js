@@ -10,11 +10,11 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="game.css") }}">
 </head>
 <body>
-    <div class="game-board" id="main-game-board">
-    {% for row in range(6) %}
+    <div class="mx-auto game-board" id="main-game-board">
+    {% for row in range(7) %}
         <div class="row">
             {% for column in range(8) %}
-                <div class="col-sm num-block">[block]</div>
+                <div class="cell" data-coordinate-x="{{ column }}" data-coordinate-y="{{ row }}"></div>
             {% endfor %}
         </div>
     {% endfor %}
