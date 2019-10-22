@@ -9,7 +9,9 @@ function generateRow() {
     for (const cell of cells) {
         if (Number(cell.dataset.row) === board.height - 1) {
             const number = Math.floor(Math.random() * board.maxnumber) + 1;
-            cell.innerHTML = `<div class="coin" data-col="${cell.dataset.col}" data-row="${cell.dataset.row}">${number}</div>`
+            const col = cell.dataset.col;
+            const row = cell.dataset.row;
+            cell.innerHTML = `<div class="coin" data-col="${col}" data-row="${row}">${number}</div>`
         }
     }
 }
