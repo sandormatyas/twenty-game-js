@@ -33,7 +33,7 @@ const setNotDraggable = (element) => {
 }
 
 
-const checkIfElementDraggable = (element) => {
+const elementIsDraggable = (element) => {
     const attribute = element.getAttribute('draggable');
     if (attribute === 'true') {
         return true;
@@ -65,7 +65,11 @@ const fieldIsTaken = () => {
 
 
 const handleClick = () => {
-    console.log(fieldIsTaken());
+    console.log('clicked');
+    if (elementIsDraggable(event.target)) {
+        setNotDraggable(event.target);
+    } else {
+        setDraggable(event.target);
 }
 
 
