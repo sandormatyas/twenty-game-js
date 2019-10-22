@@ -74,10 +74,11 @@ const handleClick = () => {
     for (const adjacentCell of adjacentCells) {
         console.log((getCellByCoordinates(adjacentCell[0], adjacentCell[1])).textContent);
     }*/
-    console.log(getAdjacentCellValues(event.target));
+    /*console.log(getAdjacentCellValues(event.target));
     const movable = getAdjacentCellValues(event.target);
     const inc = movable.includes('');
-    console.log(inc);
+    console.log(inc);*/
+    console.log(cellMovable(event.target));
 
 }
 
@@ -109,7 +110,15 @@ const getAdjacentCellValues = (cell) => {
 
 
 const cellMovable = (cell) => {
-    
+   const clickedCellValue = cell.textContent;
+   const adjacentCellValues = getAdjacentCellValues(cell);
+   if (
+       adjacentCellValues.includes('') ||
+       adjacentCellValues.includes(clickedCellValue)
+      ) {
+       return true;
+   }
+   return false;
 }
 
 
