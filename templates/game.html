@@ -11,10 +11,10 @@
 </head>
 <body>
     <div class="mx-auto game-board" id="main-game-board">
-    {% for row in range(7) %}
+    {% for row in range(8) %}
         <div class="row">
             {% for column in range(7) %}
-                <div class="cell" data-coordinate-x="{{ column }}" data-coordinate-y="{{ row }}"></div>
+                <div class="cell" data-col="{{ column }}" data-row="{{ row }}"></div>
             {% endfor %}
         </div>
     {% endfor %}
