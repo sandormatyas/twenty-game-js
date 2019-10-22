@@ -132,6 +132,15 @@ const getAdjacentCellsFor = (element) => {
 const main = () => {
     const cells = getCells();
     addEventListenerTo(cells, 'click', handleClick);
+    addDragulaToElements();
 }
+
+
+function addDragulaToElements() {
+    const cells = Array.from(document.querySelectorAll(".cell"));
+    dragula(cells);
+}
+
+
 
 main();
