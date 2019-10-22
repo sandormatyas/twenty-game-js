@@ -43,43 +43,13 @@ const elementIsDraggable = (element) => {
 }
 
 
-const getCellContent = () => {
-    const cells = getCells();
-    const cellContent = [];
-
-    for (const cell of cells) {
-        cellContent.push(cell.textContent);
-    };
-
-    return cellContent;
-}
-
-
-const fieldIsTaken = () => {
-    if (event.target.textContent) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
 const handleClick = () => {
     if (elementIsDraggable(event.target)) {
         setNotDraggable(event.target);
     } else {
         setDraggable(event.target);
     }
-    /*const adjacentCells = getAdjacentCellsFor(event.target);
-    for (const adjacentCell of adjacentCells) {
-        console.log((getCellByCoordinates(adjacentCell[0], adjacentCell[1])).textContent);
-    }*/
-    /*console.log(getAdjacentCellValues(event.target));
-    const movable = getAdjacentCellValues(event.target);
-    const inc = movable.includes('');
-    console.log(inc);*/
     console.log(cellMovable(event.target));
-
 }
 
 
