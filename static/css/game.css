@@ -6,13 +6,16 @@
     width: 70px;
     height: 70px;
     margin: 3px 2px 3px 2px;
-    text-align: center;
-    vertical-align: middle;
-    font-size: large;
+}
+
+.coin {
+    border: black solid;
+    cursor: pointer;
 }
 
 .game-board {
-    width: max-content;
+    width: 550px;
+    height: 510px;
     margin-top: 50px;
 }
 
