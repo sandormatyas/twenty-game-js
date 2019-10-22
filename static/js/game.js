@@ -1,4 +1,4 @@
-const isIterable = (obj) => {
+function isIterable(obj) {
     if (obj == null) {
         return false;
     }
@@ -6,7 +6,7 @@ const isIterable = (obj) => {
 }
 
 
-const addEventListenerTo = (object, event, callback) => {
+function addEventListenerTo(object, event, callback) {
     if (isIterable(object)) {
         for (const element of object) {
             element.addEventListener(event, callback);
@@ -17,23 +17,23 @@ const addEventListenerTo = (object, event, callback) => {
 }
 
 
-const getCells = () => {
+function getCells() {
     const cells = document.querySelectorAll('.cell');
     return cells;
 }
 
 
-const setDraggable = (element) => {
+function setDraggable(element) {
     element.setAttribute('draggable', 'true');
 }
 
 
-const setNotDraggable = (element) => {
+function setNotDraggable(element) {
     element.setAttribute('draggable', 'false');
 }
 
 
-const elementIsDraggable = (element) => {
+function elementIsDraggable(element) {
     const attribute = element.getAttribute('draggable');
     if (attribute === 'true') {
         return true;
@@ -43,7 +43,7 @@ const elementIsDraggable = (element) => {
 }
 
 
-const handleClick = () => {
+function handleClick() {
     if (elementIsDraggable(event.target)) {
         setNotDraggable(event.target);
     } else {
@@ -53,33 +53,34 @@ const handleClick = () => {
 }
 
 
-const getCellCoordinates = (cell) => {
+function getCellCoordinates(cell) {
     const coordinates = [];
-    const x = cell.dataset.coordinateX;
-    const y = cell.dataset.coordinateY;
+    const x = cell.dataset.col;
+    const y = cell.dataset.row;
     coordinates.push(Number(x));
     coordinates.push(Number(y));
     return coordinates;
 }
 
 
-const getCellByCoordinates = (coordinateX, coordinateY) => {
-    return document.querySelector(`.cell[data-coordinate-x="${coordinateX}"][data-coordinate-y="${coordinateY}"]`);
+function getCellByCoordinates(coordinateX, coordinateY) {
+    return document.querySelector(`.cell[data-col="${coordinateX}"][data-row="${coordinateY}"]`);
 }
 
 
-const getAdjacentCellValues = (cell) => {
+function getAdjacentCellValues(cell) {
     const adjacentCells = getAdjacentCellsFor(cell);
     const adjacentCellValues = [];
     for (const adjacentCell of adjacentCells) {
-        const adjacentCellValue = getCellByCoordinates(adjacentCell[0], adjacentCell[1]).textContent;
+        const adjacentCellValue = getCellByCoordinates(adjacentCell[0], adjacentCell[1]).innerHTML;
+        console.log(adjacentCellValue);
         adjacentCellValues.push(adjacentCellValue);
     }
     return adjacentCellValues;
 }
 
 
-const cellMovable = (cell) => {
+function cellMovable(cell) {
    const clickedCellValue = cell.textContent;
    const adjacentCellValues = getAdjacentCellValues(cell);
    if (
@@ -92,12 +93,12 @@ const cellMovable = (cell) => {
 }
 
 
-const purgeOutOfBound = (coordinate_pairs) => {
+function purgeOutOfBound(coordinate_pairs) {
     const purgedCoordinates = [];
     for (const coordinate_pair of coordinate_pairs) {
         if (
             (coordinate_pair[0] < 0 || coordinate_pair[0] > 6) ||
-            (coordinate_pair[1] < 0 || coordinate_pair[1] > 6)
+            (coordinate_pair[1] < 0 || coordinate_pair[1] > 7)
         ) {
             continue;
         } else {
@@ -108,7 +109,7 @@ const purgeOutOfBound = (coordinate_pairs) => {
 }
 
 
-const getAdjacentCellsFor = (element) => {
+function getAdjacentCellsFor(element) {
     const elementCoordinates = getCellCoordinates(element);
     const elementX = elementCoordinates[0];
     const elementY = elementCoordinates[1];
@@ -129,7 +130,7 @@ const getAdjacentCellsFor = (element) => {
 }
 
 
-const main = () => {
+function main() {
     const cells = getCells();
     addEventListenerTo(cells, 'click', handleClick);
     addDragulaToElements();
