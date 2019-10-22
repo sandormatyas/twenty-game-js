@@ -5,16 +5,16 @@ function addDragulaToElements() {
 
 
 function setCoinCoord(coin) {
-    coin.dataset.row = coin.parent.dataset.row;
-    coin.dataset.col = coin.parent.dataset.col;
+    coin.dataset.row = coin.parentNode.dataset.row;
+    coin.dataset.col = coin.parentNode.dataset.col;
 }
 
 
 function shiftCoinsUp() {
     let coins = document.querySelectorAll('.coin');
     for (let coin of coins) {
-        let newXCoord = coin.dataset.row -1;
-        let YCoord = coin.dataset.col;
+        let newXCoord = parseInt(coin.dataset.row) -1;
+        let YCoord = parseInt(coin.dataset.col);
 
         let fragment = document.createDocumentFragment();
         fragment.appendChild(coin);
