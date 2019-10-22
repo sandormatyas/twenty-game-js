@@ -14,9 +14,33 @@ function generateRow() {
     }
 }
 
-function handleNewRow() {
-    const button = document.querySelector('#button-container button');
-    button.addEventListener('click', generateRow);
+function handleTimer() {
+    const timerBar = document.getElementById('timer-bar');
+    const timesUp = new Event('timesUp');
+
+    timerBar.addEventListener('timesUp', function (event) {
+        let width = 100;
+        let timeHandler = setInterval(decreaseTime, 10);
+
+        function decreaseTime() {
+            if (width <= 0) {
+                clearInterval(timeHandler);
+                timerBar.style.width = '100%';
+                generateRow();
+                event.target.dispatchEvent(timesUp);
+            } else {
+                width = width - 0.2;
+                timerBar.style.width = width + '%';
+            }
+        }
+
+    });
+    timerBar.dispatchEvent(timesUp);
 }
 
-handleNewRow();
+
+function main() {
+    handleTimer();
+}
+
+main();
