@@ -1,5 +1,3 @@
-
-
 function addDragulaToElements() {
     const cells = Array.from(document.querySelectorAll(".cell"));
     dragula(cells);
@@ -7,12 +5,12 @@ function addDragulaToElements() {
 
 
 function setCoinCoord(coin) {
-    coin.dataset.row = coin.parentNode.dataset.row;
-    coin.dataset.col = coin.parentNode.dataset.col;
+    coin.dataset.row = coin.parent.dataset.row;
+    coin.dataset.col = coin.parent.dataset.col;
 }
 
 
-function shiftBlocksUp() {
+function shiftCoinsUp() {
     let coins = document.querySelectorAll('.coin');
     for (let coin of coins) {
         let newXCoord = coin.dataset.row -1;
@@ -27,9 +25,14 @@ function shiftBlocksUp() {
 
 }
 
+function test() {
+    const button = document.getElementById('button');
+    button.addEventListener('click', shiftCoinsUp);
+}
 
 function main() {
     addDragulaToElements();
+    test();
 }
 
 
