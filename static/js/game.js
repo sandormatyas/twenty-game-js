@@ -71,6 +71,7 @@ const handleClick = () => {
         setDraggable(event.target);
     }
     /*getAdjacentCellsFor(event.target);*/
+    console.log(getAdjacentCellsFor(event.target));
 }
 
 
@@ -81,6 +82,24 @@ const getCellCoordinates = (cell) => {
     coordinates.push(Number(x));
     coordinates.push(Number(y));
     return coordinates;
+}
+
+
+const purgeOutOfBound = (coordinate_pairs) => {
+    const purgedCoordinates = [];
+    for (const coordinate_pair of coordinate_pairs) {
+        console.log(coordinate_pair);
+        if (
+            (coordinate_pair[0] < 0 || coordinate_pair[0] > 6) ||
+            (coordinate_pair[1] < 0 || coordinate_pair[1] > 6)
+        ) {
+            continue;
+        } else {
+            purgedCoordinates.push(coordinate_pair);
+        }
+    }
+    console.log(purgedCoordinates);
+    return purgedCoordinates;
 }
 
 
@@ -104,7 +123,8 @@ const getAdjacentCellsFor = (cell) => {
         [sameColumn, rowBelow],
         [nextColumn, rowBelow]
     ]
-    return adjacentCells;
+    const adjacentCellsPurged = purgeOutOfBound(adjacentCells);
+    return adjacentCellsPurged;
 }
 
 
