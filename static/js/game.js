@@ -30,7 +30,6 @@ function test() {
     button.addEventListener('click', shiftCoinsUp);
 }
 
-function main() {
 function startDragula() {
     addDragulaToElements();
     test();

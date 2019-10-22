@@ -1,5 +1,3 @@
-import "./game";
-
 function Board() {
     this.height = 8;
     this.maxnumber = 5;
