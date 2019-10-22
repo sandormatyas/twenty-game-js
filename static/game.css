@@ -15,6 +15,7 @@
 }
 
 .game-board {
-    width: max-content;
+    width: 550px;
+    height: 510px;
     margin-top: 50px;
 }
