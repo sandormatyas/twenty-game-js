@@ -6,6 +6,14 @@ function addDragulaToElements() {
 }
 
 
+function shiftBlocksUp() {
+    let coins = document.querySelectorAll('.coin');
+    for (let coin of coins) {
+
+    }
+}
+
+
 function main() {
     addDragulaToElements();
 }
