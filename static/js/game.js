@@ -71,7 +71,10 @@ const handleClick = () => {
         setDraggable(event.target);
     }
     /*getAdjacentCellsFor(event.target);*/
-    console.log(getAdjacentCellsFor(event.target));
+    const adjacentCells = getAdjacentCellsFor(event.target);
+    for (const adjacentCell of adjacentCells) {
+        console.log((getCellByCoordinates(adjacentCell[0], adjacentCell[1])).textContent);
+    };
 }
 
 
@@ -85,10 +88,16 @@ const getCellCoordinates = (cell) => {
 }
 
 
+const getCellByCoordinates = (coordinateX, coordinateY) => {
+    return document.querySelector(`.cell[data-coordinate-x="${coordinateX}"][data-coordinate-y="${coordinateY}"]`);
+}
+
+
+const cellMovable ()
+
 const purgeOutOfBound = (coordinate_pairs) => {
     const purgedCoordinates = [];
     for (const coordinate_pair of coordinate_pairs) {
-        console.log(coordinate_pair);
         if (
             (coordinate_pair[0] < 0 || coordinate_pair[0] > 6) ||
             (coordinate_pair[1] < 0 || coordinate_pair[1] > 6)
@@ -98,7 +107,6 @@ const purgeOutOfBound = (coordinate_pairs) => {
             purgedCoordinates.push(coordinate_pair);
         }
     }
-    console.log(purgedCoordinates);
     return purgedCoordinates;
 }
 
@@ -114,14 +122,10 @@ const getAdjacentCellsFor = (cell) => {
     const sameColumn = elementX;
     const nextColumn = elementX + 1;
     const adjacentCells = [
-        [previousColumn, rowAbove],
         [sameColumn, rowAbove],
-        [nextColumn, rowAbove],
         [previousColumn, sameRow],
         [nextColumn, sameRow],
-        [previousColumn, rowBelow],
-        [sameColumn, rowBelow],
-        [nextColumn, rowBelow]
+        [sameColumn, rowBelow]
     ]
     const adjacentCellsPurged = purgeOutOfBound(adjacentCells);
     return adjacentCellsPurged;
