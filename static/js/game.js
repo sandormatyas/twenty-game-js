@@ -31,9 +31,10 @@ function test() {
 }
 
 function main() {
+function startDragula() {
     addDragulaToElements();
     test();
 }
 
 
-main();
+startDragula();
