@@ -9,8 +9,19 @@
 }
 
 .coin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: black solid;
     cursor: pointer;
+    width: 90%;
+    height: 90%;
+    margin: 5% auto;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .game-board {
