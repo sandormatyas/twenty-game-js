@@ -14,4 +14,9 @@ function generateRow() {
     }
 }
 
-generateRow();
+function handleNewRow() {
+    const button = document.querySelector('#button-container button');
+    button.addEventListener('click', generateRow);
+}
+
+handleNewRow();
