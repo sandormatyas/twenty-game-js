@@ -14,11 +14,13 @@ function generateRow() {
     }
 }
 
-function handleTimer() {
+function handleRows() {
     const timerBar = document.getElementById('timer-bar');
     const timesUp = new Event('timesUp');
 
     timerBar.addEventListener('timesUp', function (event) {
+        generateRow();
+
         let width = 100;
         let timeHandler = setInterval(decreaseTime, 10);
 
@@ -26,7 +28,6 @@ function handleTimer() {
             if (width <= 0) {
                 clearInterval(timeHandler);
                 timerBar.style.width = '100%';
-                generateRow();
                 event.target.dispatchEvent(timesUp);
             } else {
                 width = width - 0.2;
@@ -40,7 +41,7 @@ function handleTimer() {
 
 
 function main() {
-    handleTimer();
+    handleRows();
 }
 
 main();
