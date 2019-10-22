@@ -9,6 +9,9 @@
 }
 
 .coin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: black solid;
     cursor: pointer;
     width: 90%;
