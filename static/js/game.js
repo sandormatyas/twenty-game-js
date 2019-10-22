@@ -6,9 +6,9 @@ function addDragulaToElements() {
 }
 
 
-function main() {
+function startDragula() {
     addDragulaToElements();
 }
 
 
-main();
+startDragula();
