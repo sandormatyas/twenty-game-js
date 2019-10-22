@@ -70,16 +70,20 @@ const handleClick = () => {
     } else {
         setDraggable(event.target);
     }
-    /*getAdjacentCellsFor(event.target);*/
-    const adjacentCells = getAdjacentCellsFor(event.target);
+    /*const adjacentCells = getAdjacentCellsFor(event.target);
     for (const adjacentCell of adjacentCells) {
         console.log((getCellByCoordinates(adjacentCell[0], adjacentCell[1])).textContent);
-    };
+    }*/
+    console.log(getAdjacentCellValues(event.target));
+    const movable = getAdjacentCellValues(event.target);
+    const inc = movable.includes('');
+    console.log(inc);
+
 }
 
 
 const getCellCoordinates = (cell) => {
-    const coordinates = []
+    const coordinates = [];
     const x = cell.dataset.coordinateX;
     const y = cell.dataset.coordinateY;
     coordinates.push(Number(x));
@@ -93,7 +97,21 @@ const getCellByCoordinates = (coordinateX, coordinateY) => {
 }
 
 
-const cellMovable ()
+const getAdjacentCellValues = (cell) => {
+    const adjacentCells = getAdjacentCellsFor(cell);
+    const adjacentCellValues = [];
+    for (const adjacentCell of adjacentCells) {
+        const adjacentCellValue = getCellByCoordinates(adjacentCell[0], adjacentCell[1]).textContent;
+        adjacentCellValues.push(adjacentCellValue);
+    }
+    return adjacentCellValues;
+}
+
+
+const cellMovable = (cell) => {
+    
+}
+
 
 const purgeOutOfBound = (coordinate_pairs) => {
     const purgedCoordinates = [];
@@ -111,8 +129,8 @@ const purgeOutOfBound = (coordinate_pairs) => {
 }
 
 
-const getAdjacentCellsFor = (cell) => {
-    const elementCoordinates = getCellCoordinates(cell);
+const getAdjacentCellsFor = (element) => {
+    const elementCoordinates = getCellCoordinates(element);
     const elementX = elementCoordinates[0];
     const elementY = elementCoordinates[1];
     const rowAbove = elementY - 1;
