@@ -1,3 +1,24 @@
+//---------------RESET GAME-----------------------------------------------------
+function resetGame() {
+    const cells = document.querySelectorAll(".cell");
+    for (let cell of cells) {
+        cell.innerHTML = "";
+    }
+    generateRow();
+}
+
+//---------------LOSE CHECK-----------------------------------------------------
+function loseCheck() {
+    const coins = document.querySelectorAll('.coin');
+    for (let coin of coins) {
+        let checkRow = parseInt(coin.dataset.row) - 1;
+        if (checkRow === -1) {
+            alert("You lost!");
+            return true;
+        }
+    }
+}
+
 //--------------DRAG-AND-DROP------------------------------------------------
 
 function getDragSourceCell() {
@@ -85,7 +106,6 @@ function setUpCoin(coin) {
     });
 }
 
-
 //---------------SHIFTING ROWS UP--------------------------------------------
 function setCoinCoord(coin) {
     coin.dataset.row = coin.parentNode.dataset.row;
@@ -141,8 +161,14 @@ function handleRowGeneration() {
     const timesUp = new Event('timesUp');
 
     timerBar.addEventListener('timesUp', function (event) {
-        shiftCoinsUp();
-        generateRow();
+        if (loseCheck()) {
+            resetGame()
+        }
+        else {
+            shiftCoinsUp();
+            generateRow();
+        }
+
 
         let width = 100;
         let timeHandler = setInterval(decreaseTime, 10);
