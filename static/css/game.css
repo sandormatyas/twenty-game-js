@@ -17,6 +17,9 @@
     width: 90%;
     height: 90%;
     margin: 5% auto;
+}
+
+.number, .coin, .cell {
     user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
