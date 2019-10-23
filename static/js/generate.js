@@ -15,7 +15,9 @@ function addDragulaToElements() {
         }
         el.remove();
         target.innerHTML = `<div class="coin"><div class="number">${number}</div></div>`;
-        setCoinCoord(target.querySelector('.coin'));
+        const newCoin = target.querySelector('.coin');
+        checkWin(newCoin);
+        setCoinCoord(newCoin);
     }).on('over', function (el, container) {
         const targetCoin = container.querySelector('.coin');
         if (targetCoin && el !== targetCoin && el.firstChild.textContent === targetCoin.firstChild.textContent) {
@@ -29,6 +31,14 @@ function addDragulaToElements() {
             container.classList.remove('ex-over');
         }
     });
+}
+
+//---------------WIN---------------------------------------------------------
+function checkWin(coin) {
+    const num = parseInt(coin.textContent);
+    if (num === 10) {
+        alert("You've won!")
+    }
 }
 
 //---------------SHIFTING ROWS UP--------------------------------------------
