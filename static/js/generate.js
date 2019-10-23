@@ -6,23 +6,27 @@ function addDragulaToElements() {
             return !target.innerHTML || el.firstChild.textContent === target.firstChild.textContent;
         }
     }).on('drop', function (el, target) {
-        const targetCoin = target.querySelector('.coin.gu-hide');
-        if (targetCoin) {
-            targetCoin.remove();
+        let number;
+        if (target.classList.contains('ex-over')) {
+            number = (Number(el.firstChild.textContent) + 1).toString();
+            target.classList.remove('ex-over');
+        } else {
+            number = el.firstChild.textContent;
         }
-        setCoinCoord(el);
+        el.remove();
+        target.innerHTML = `<div class="coin"><div class="number">${number}</div></div>`;
+        setCoinCoord(target.querySelector('.coin'));
     }).on('over', function (el, container) {
         const targetCoin = container.querySelector('.coin');
-        if (!targetCoin || el === targetCoin) {
-        } else if (el.firstChild.textContent === targetCoin.firstChild.textContent) {
-            targetCoin.classList.add('gu-hide');
-            el.firstChild.textContent = (Number(el.firstChild.textContent) + 1).toString();
+        if (targetCoin && el !== targetCoin && el.firstChild.textContent === targetCoin.firstChild.textContent) {
+            container.innerHTML = '';
+            container.classList.add('ex-over');
         }
     }).on('out', function (el, container) {
-        const targetCoin = container.querySelector('.coin.gu-hide');
-        if (targetCoin) {
-            el.firstChild.textContent = (targetCoin.firstChild.textContent).toString();
-            targetCoin.classList.remove('gu-hide');
+        if (container.classList.contains('ex-over')) {
+            container.innerHTML = `<div class="coin"><div class="number">${el.firstChild.textContent}</div></div>`;
+            setCoinCoord(container.querySelector('.coin'));
+            container.classList.remove('ex-over');
         }
     });
 }
@@ -36,7 +40,7 @@ function setCoinCoord(coin) {
 function shiftCoinsUp() {
     const coins = document.querySelectorAll('.coin');
     for (let coin of coins) {
-        let newRow = parseInt(coin.dataset.row) -1;
+        let newRow = parseInt(coin.dataset.row) - 1;
         let column = parseInt(coin.dataset.col);
 
         let fragment = document.createDocumentFragment();
@@ -76,7 +80,7 @@ function handleRows() {
         generateRow();
 
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 100);
+        let timeHandler = setInterval(decreaseTime, 20);
 
         function decreaseTime() {
             if (width <= 0) {
