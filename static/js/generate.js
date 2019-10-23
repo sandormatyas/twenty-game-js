@@ -1,3 +1,24 @@
+//---------------RESET GAME-----------------------------------------------------
+function resetGame() {
+    const cells = document.querySelectorAll(".cell");
+    for (let cell of cells) {
+        cell.innerHTML = "";
+    }
+    generateRow();
+}
+
+//---------------LOSE CHECK-----------------------------------------------------
+function loseCheck() {
+    const coins = document.querySelectorAll('.coin');
+    for (let coin of coins) {
+        let checkRow = parseInt(coin.dataset.row) - 1;
+        if (checkRow === -1) {
+            alert("You lost!");
+            return true;
+        }
+    }
+}
+
 //---------------DRAGULA-----------------------------------------------------
 function addDragulaToElements() {
     const cells = Array.from(document.querySelectorAll(".cell"));
@@ -53,8 +74,14 @@ function handleRows() {
     const timesUp = new Event('timesUp');
 
     timerBar.addEventListener('timesUp', function (event) {
-        shiftCoinsUp();
-        generateRow();
+        if (loseCheck()) {
+            resetGame()
+        }
+        else {
+            shiftCoinsUp();
+            generateRow();
+        }
+
 
         let width = 100;
         let timeHandler = setInterval(decreaseTime, 200);
