@@ -22,7 +22,7 @@ function loseCheck() {
 //---------------DRAGULA-----------------------------------------------------
 function addDragulaToElements() {
     const cells = Array.from(document.querySelectorAll(".cell"));
-    dragula(cells, {
+    let drake = dragula(cells, {
         accepts: function (el, target) {
             return !target.innerHTML || el.firstChild.textContent === target.firstChild.textContent;
         }
@@ -34,11 +34,11 @@ function addDragulaToElements() {
         } else {
             number = el.firstChild.textContent;
         }
-        el.remove();
+        drake.remove();
         target.innerHTML = `<div class="coin"><div class="number">${number}</div></div>`;
         const newCoin = target.querySelector('.coin');
-        checkWin(newCoin);
         setCoinCoord(newCoin);
+        checkWin(newCoin);
     }).on('over', function (el, container) {
         const targetCoin = container.querySelector('.coin');
         if (targetCoin && el !== targetCoin && el.firstChild.textContent === targetCoin.firstChild.textContent) {
@@ -58,7 +58,8 @@ function addDragulaToElements() {
 function checkWin(coin) {
     const num = parseInt(coin.textContent);
     if (num === 10) {
-        alert("You've won!")
+        alert("You've won!");
+        resetGame();
     }
 }
 
