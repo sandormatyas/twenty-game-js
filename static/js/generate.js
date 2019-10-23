@@ -100,11 +100,18 @@ function shiftCoinsUp() {
 
         let fragment = document.createDocumentFragment();
         fragment.appendChild(coin);
-        document.querySelector(`.cell[data-col="${column}"][data-row="${newRow}"]`).appendChild(fragment);
-
+        const newCell = document.querySelector(`.cell[data-col="${column}"][data-row="${newRow}"]`);
+        newCell.appendChild(fragment);
         setCoinCoord(coin);
     }
-
+    const cells = document.querySelectorAll('.cell');
+    for (const cell of cells) {
+        if (cell.firstChild) {
+            cell.dataset.number = cell.querySelector('.coin .number').textContent;
+        } else {
+            cell.dataset.number = '';
+        }
+    }
 }
 
 //-----------------TIMER + GENERATING BOTTOM ROW------------------------------
@@ -129,7 +136,7 @@ function generateRow() {
     }
 }
 
-function handleRows() {
+function handleRowGeneration() {
     const timerBar = document.getElementById('timer-bar');
     const timesUp = new Event('timesUp');
 
@@ -138,7 +145,7 @@ function handleRows() {
         generateRow();
 
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 200);
+        let timeHandler = setInterval(decreaseTime, 10);
 
         function decreaseTime() {
             if (width <= 0) {
@@ -158,7 +165,7 @@ function handleRows() {
 
 function main() {
     setUpCells();
-    handleRows();
+    handleRowGeneration();
 }
 
 main();
