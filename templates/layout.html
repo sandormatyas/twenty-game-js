@@ -7,8 +7,8 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
               integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
               crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dragula.min.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/game.css") }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.css"/>
     {% endblock %}
 </head>
 <body>
@@ -22,7 +22,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+<script src="{{ url_for('static', filename='js/dragula.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/generate.js') }}"></script>
 <script src="{{ url_for('static', filename='js/game.js') }}"></script>
 </body>
