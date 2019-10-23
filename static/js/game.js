@@ -23,6 +23,12 @@ function getCells() {
 }
 
 
+function getAllCoins() {
+    const coins = document.querySelectorAll('.coin');
+    return coins;
+}
+
+
 function setDraggable(element) {
     element.setAttribute('draggable', 'true');
 }
@@ -44,13 +50,17 @@ function elementIsDraggable(element) {
 
 
 function handleClick() {
+    getAllCoins();
+}
+
+/*function handleClick() {
     if (elementIsDraggable(event.target)) {
         setNotDraggable(event.target);
     } else {
         setDraggable(event.target);
     }
     console.log(cellMovable(event.target));
-}
+}*/
 
 
 function getCellCoordinates(cell) {
