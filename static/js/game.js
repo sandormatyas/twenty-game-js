@@ -29,12 +29,12 @@ function getAllCoins() {
 }
 
 
-function setDraggable(element) {
+function setBlocked(element) {
     element.setAttribute('draggable', 'true');
 }
 
 
-function setNotDraggable(element) {
+function setNotBlocked(element) {
     element.setAttribute('draggable', 'false');
 }
 
@@ -50,7 +50,11 @@ function elementIsDraggable(element) {
 
 
 function handleClick() {
-    getAllCoins();
+    const coins = getAllCoins();
+    const coin = coins[0];
+    console.log(getAdjacentCellValuesFor(coin));
+    const coinContent = coin.firstChild.textContent;
+    console.log(coinContent);
 }
 
 /*function handleClick() {
@@ -78,11 +82,11 @@ function getCellByCoordinates(coordinateX, coordinateY) {
 }
 
 
-function getAdjacentCellValues(cell) {
+function getAdjacentCellValuesFor(cell) {
     const adjacentCells = getAdjacentCellsFor(cell);
     const adjacentCellValues = [];
     for (const adjacentCell of adjacentCells) {
-        const adjacentCellValue = getCellByCoordinates(adjacentCell[0], adjacentCell[1]).innerHTML;
+        const adjacentCellValue = getCellByCoordinates(adjacentCell[0], adjacentCell[1]).textContent;
         console.log(adjacentCellValue);
         adjacentCellValues.push(adjacentCellValue);
     }
@@ -92,7 +96,7 @@ function getAdjacentCellValues(cell) {
 
 function cellMovable(cell) {
    const clickedCellValue = cell.textContent;
-   const adjacentCellValues = getAdjacentCellValues(cell);
+   const adjacentCellValues = getAdjacentCellValuesFor(cell);
    if (
        adjacentCellValues.includes('') ||
        adjacentCellValues.includes(clickedCellValue)
@@ -143,15 +147,7 @@ function getAdjacentCellsFor(element) {
 function main() {
     const cells = getCells();
     addEventListenerTo(cells, 'click', handleClick);
-    addDragulaToElements();
 }
-
-
-function addDragulaToElements() {
-    const cells = Array.from(document.querySelectorAll(".cell"));
-    dragula(cells);
-}
-
 
 
 main();
