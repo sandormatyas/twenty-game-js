@@ -1,14 +1,15 @@
 .cell {
     cursor: pointer;
-    border: solid 1px black;
     border-radius: 5px;
     display: inline-block;
     width: 70px;
     height: 70px;
     margin: 3px 2px 3px 2px;
+    border: solid 1px black;
 }
 
 .coin {
+    font-size: 28px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,6 +18,7 @@
     width: 90%;
     height: 90%;
     margin: 5% auto;
+    border-radius: 5px;
 }
 
 .number, .coin, .cell {
@@ -28,9 +30,10 @@
 }
 
 .game-board {
-    width: 550px;
-    height: 510px;
+    width: max-content;
     margin-top: 50px;
+    border: solid 2px black;
+    border-radius: 5px;
 }
 
 #timer-container {
@@ -48,4 +51,35 @@
     width: 100%;
     height: 15px;
     background-color: green;
+}
+
+.coin[data-color="1"] {
+    background-color: blue;
+}
+.coin[data-color="2"] {
+    background-color: red;
+}
+.coin[data-color="3"] {
+    background-color: green;
+}
+.coin[data-color="4"] {
+    background-color: magenta;
+}
+.coin[data-color="5"] {
+    background-color: violet;
+}
+.coin[data-color="6"] {
+    background-color: darkgoldenrod;
+}
+.coin[data-color="7"] {
+    background-color: saddlebrown;
+}
+.coin[data-color="8"] {
+    background-color: lightseagreen;
+}
+.coin[data-color="9"] {
+    background-color: grey;
+}
+.coin[data-color="10"] {
+    background-color: yellow;
 }

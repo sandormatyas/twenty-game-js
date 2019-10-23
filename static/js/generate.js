@@ -64,7 +64,7 @@ function generateRow() {
             const number = Math.floor(Math.random() * board.maxnumber) + 1;
             const col = cell.dataset.col;
             const row = cell.dataset.row;
-            cell.innerHTML = `<div class="coin" data-col="${col}" data-row="${row}"><div class="number">${number}</div></div>`
+            cell.innerHTML = `<div class="coin" data-col="${col}" data-row="${row}" data-color="${number}"><div class="number">${number}</div></div>`
         }
     }
 }
