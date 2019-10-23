@@ -6,7 +6,7 @@ function addDragulaToElements() {
             return !target.innerHTML || el.firstChild.textContent === target.firstChild.textContent;
         }
     }).on('drop', function (el, target) {
-        const targetCoin = target.querySelector('.coin .gu-hide');
+        const targetCoin = target.querySelector('.coin.gu-hide');
         if (targetCoin) {
             targetCoin.remove();
         }
@@ -19,7 +19,7 @@ function addDragulaToElements() {
             el.firstChild.textContent = (Number(el.firstChild.textContent) + 1).toString();
         }
     }).on('out', function (el, container) {
-        const targetCoin = container.querySelector('.coin .gu-hide');
+        const targetCoin = container.querySelector('.coin.gu-hide');
         if (targetCoin) {
             el.firstChild.textContent = (targetCoin.firstChild.textContent).toString();
             targetCoin.classList.remove('gu-hide');
