@@ -152,6 +152,8 @@ function generateRow() {
             cell.dataset.number = number.toString();
             const newCoin = cell.firstChild;
             setUpCoin(newCoin);
+        } else if (!cell.firstChild) {
+            cell.dataset.number = '';
         }
     }
 }
