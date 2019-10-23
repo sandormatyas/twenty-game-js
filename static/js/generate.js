@@ -1,36 +1,3 @@
-//---------------DRAGULA-----------------------------------------------------
-function addDragulaToElements() {
-    const cells = Array.from(document.querySelectorAll(".cell"));
-    dragula(cells, {
-        accepts: function (el, target) {
-            return !target.innerHTML || el.firstChild.textContent === target.firstChild.textContent;
-        }
-    }).on('drop', function (el, target) {
-        let number;
-        if (target.classList.contains('ex-over')) {
-            number = (Number(el.firstChild.textContent) + 1).toString();
-            target.classList.remove('ex-over');
-        } else {
-            number = el.firstChild.textContent;
-        }
-        el.remove();
-        target.innerHTML = `<div class="coin"><div class="number">${number}</div></div>`;
-        setCoinCoord(target.querySelector('.coin'));
-    }).on('over', function (el, container) {
-        const targetCoin = container.querySelector('.coin');
-        if (targetCoin && el !== targetCoin && el.firstChild.textContent === targetCoin.firstChild.textContent) {
-            container.innerHTML = '';
-            container.classList.add('ex-over');
-        }
-    }).on('out', function (el, container) {
-        if (container.classList.contains('ex-over')) {
-            container.innerHTML = `<div class="coin"><div class="number">${el.firstChild.textContent}</div></div>`;
-            setCoinCoord(container.querySelector('.coin'));
-            container.classList.remove('ex-over');
-        }
-    });
-}
-
 //---------------SHIFTING ROWS UP--------------------------------------------
 function setCoinCoord(coin) {
     coin.dataset.row = coin.parentNode.dataset.row;
