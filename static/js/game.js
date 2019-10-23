@@ -30,12 +30,12 @@ function getAllCoins() {
 
 
 function setBlocked(element) {
-    element.setAttribute('draggable', 'true');
+    element.dataset.blocked = 'true';
 }
 
 
 function setNotBlocked(element) {
-    element.setAttribute('draggable', 'false');
+    element.dataset.blocked = 'false';
 }
 
 
@@ -51,10 +51,20 @@ function elementIsDraggable(element) {
 
 function handleClick() {
     const coins = getAllCoins();
-    const coin = coins[0];
-    console.log(getAdjacentCellValuesFor(coin));
-    const coinContent = coin.firstChild.textContent;
-    console.log(coinContent);
+    setAttributeOfBlocked(coins);
+    /*console.log(getAdjacentCellValuesFor(coin));*/
+    /*const coinContent = coin.firstChild.textContent;
+    console.log(coinContent);*/
+}
+
+function setAttributeOfBlocked(coins) {
+    for (const coin of coins) {
+        if (coinBlocked(coin)) {
+            setBlocked(coin);
+        } else {
+            setNotBlocked(coin)
+        }
+    }
 }
 
 /*function handleClick() {
@@ -87,10 +97,18 @@ function getAdjacentCellValuesFor(cell) {
     const adjacentCellValues = [];
     for (const adjacentCell of adjacentCells) {
         const adjacentCellValue = getCellByCoordinates(adjacentCell[0], adjacentCell[1]).textContent;
-        console.log(adjacentCellValue);
         adjacentCellValues.push(adjacentCellValue);
     }
     return adjacentCellValues;
+}
+
+
+function coinBlocked(coin) {
+    const adjacentCellValues = getAdjacentCellValuesFor(coin);
+    if (adjacentCellValues.includes('')) {
+        return false;
+    }
+    return true;
 }
 
 

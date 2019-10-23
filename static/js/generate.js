@@ -57,7 +57,7 @@ function handleRows() {
         generateRow();
 
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 150);
+        let timeHandler = setInterval(decreaseTime, 1500);
 
         function decreaseTime() {
             if (width <= 0) {
