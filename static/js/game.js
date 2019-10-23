@@ -1,9 +1,3 @@
-function getCells() {
-    const cells = document.querySelectorAll('.cell');
-    return cells;
-}
-
-
 function getCellCoordinates(cell) {
     const coordinates = [];
     const x = cell.dataset.col;
@@ -34,7 +28,7 @@ function coinBlocked(coin) {
 }
 
 
-function setAttributeOfBlocked(coins) {
+function setBlockedAttributeOf(coins) {
     for (const coin of coins) {
         if (coinBlocked(coin)) {
             setBlocked(coin);
@@ -103,34 +97,20 @@ function purgeOutOfBound(coordinate_pairs) {
 }
 
 
-function isIterable(obj) {
-    if (obj == null) {
-        return false;
-    }
-    return typeof obj[Symbol.iterator] === 'function';
-}
-
-
-function addEventListenerTo(object, event, callback) {
-    if (isIterable(object)) {
-        for (const element of object) {
-            element.addEventListener(event, callback);
-        }
-    } else {
-        object.addEventListener(event, callback);
-    }
-}
-
-
-function handleClick() {
-    const coins = getCoins();
-    setAttributeOfBlocked(coins);
-}
-
-
 function main() {
-    const cells = getCells();
-    addEventListenerTo(cells, 'click', handleClick);
+    const coins = getCoins();
+    const targetNode = document.querySelector('#main-game-board');
+    const config = {attributes: true, childList: false, subtree: true};
+    const callback = function(mutationsList) {
+        for (const mutation of mutationsList) {
+            if (mutation.attributeName === 'data-row') {
+                setBlockedAttributeOf(coins);
+                break;
+            }
+        }
+    };
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
 }
 
 
