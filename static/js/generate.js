@@ -35,7 +35,7 @@ function addDragulaToElements() {
             number = el.firstChild.textContent;
         }
         drake.remove();
-        target.innerHTML = `<div class="coin"><div class="number">${number}</div></div>`;
+        target.innerHTML = `<div class="coin" data-color="${number}"><div class="number">${number}</div></div>`;
         const newCoin = target.querySelector('.coin');
         setCoinCoord(newCoin);
         checkWin(newCoin);
@@ -47,7 +47,7 @@ function addDragulaToElements() {
         }
     }).on('out', function (el, container) {
         if (container.classList.contains('ex-over')) {
-            container.innerHTML = `<div class="coin"><div class="number">${el.firstChild.textContent}</div></div>`;
+            container.innerHTML = `<div class="coin" data-color="${el.firstChild.textContent}"><div class="number">${el.firstChild.textContent}</div></div>`;
             setCoinCoord(container.querySelector('.coin'));
             container.classList.remove('ex-over');
         }
