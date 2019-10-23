@@ -1,80 +1,7 @@
-function isIterable(obj) {
-    if (obj == null) {
-        return false;
-    }
-    return typeof obj[Symbol.iterator] === 'function';
-}
-
-
-function addEventListenerTo(object, event, callback) {
-    if (isIterable(object)) {
-        for (const element of object) {
-            element.addEventListener(event, callback);
-        }
-    } else {
-        object.addEventListener(event, callback);
-    }
-}
-
-
 function getCells() {
     const cells = document.querySelectorAll('.cell');
     return cells;
 }
-
-
-function getAllCoins() {
-    const coins = document.querySelectorAll('.coin');
-    return coins;
-}
-
-
-function setBlocked(element) {
-    element.dataset.blocked = 'true';
-}
-
-
-function setNotBlocked(element) {
-    element.dataset.blocked = 'false';
-}
-
-
-function elementIsDraggable(element) {
-    const attribute = element.getAttribute('draggable');
-    if (attribute === 'true') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
-function handleClick() {
-    const coins = getAllCoins();
-    setAttributeOfBlocked(coins);
-    /*console.log(getAdjacentCellValuesFor(coin));*/
-    /*const coinContent = coin.firstChild.textContent;
-    console.log(coinContent);*/
-}
-
-function setAttributeOfBlocked(coins) {
-    for (const coin of coins) {
-        if (coinBlocked(coin)) {
-            setBlocked(coin);
-        } else {
-            setNotBlocked(coin)
-        }
-    }
-}
-
-/*function handleClick() {
-    if (elementIsDraggable(event.target)) {
-        setNotDraggable(event.target);
-    } else {
-        setDraggable(event.target);
-    }
-    console.log(cellMovable(event.target));
-}*/
 
 
 function getCellCoordinates(cell) {
@@ -92,19 +19,14 @@ function getCellByCoordinates(coordinateX, coordinateY) {
 }
 
 
-function getAdjacentCellValuesFor(cell) {
-    const adjacentCells = getAdjacentCellsFor(cell);
-    const adjacentCellValues = [];
-    for (const adjacentCell of adjacentCells) {
-        const adjacentCellValue = getCellByCoordinates(adjacentCell[0], adjacentCell[1]).textContent;
-        adjacentCellValues.push(adjacentCellValue);
-    }
-    return adjacentCellValues;
+function getCoins() {
+    const coins = document.querySelectorAll('.coin');
+    return coins;
 }
 
 
 function coinBlocked(coin) {
-    const adjacentCellValues = getAdjacentCellValuesFor(coin);
+    const adjacentCellValues = getContentOfAdjacentCellsFor(coin);
     if (adjacentCellValues.includes('')) {
         return false;
     }
@@ -112,32 +34,35 @@ function coinBlocked(coin) {
 }
 
 
-function cellMovable(cell) {
-   const clickedCellValue = cell.textContent;
-   const adjacentCellValues = getAdjacentCellValuesFor(cell);
-   if (
-       adjacentCellValues.includes('') ||
-       adjacentCellValues.includes(clickedCellValue)
-      ) {
-       return true;
-   }
-   return false;
+function setAttributeOfBlocked(coins) {
+    for (const coin of coins) {
+        if (coinBlocked(coin)) {
+            setBlocked(coin);
+        } else {
+            setNotBlocked(coin);
+        }
+    }
 }
 
 
-function purgeOutOfBound(coordinate_pairs) {
-    const purgedCoordinates = [];
-    for (const coordinate_pair of coordinate_pairs) {
-        if (
-            (coordinate_pair[0] < 0 || coordinate_pair[0] > 6) ||
-            (coordinate_pair[1] < 0 || coordinate_pair[1] > 7)
-        ) {
-            continue;
-        } else {
-            purgedCoordinates.push(coordinate_pair);
-        }
+function setBlocked(element) {
+    element.dataset.blocked = 'true';
+}
+
+
+function setNotBlocked(element) {
+    element.dataset.blocked = 'false';
+}
+
+
+function getContentOfAdjacentCellsFor(coin) {
+    const adjacentCells = getAdjacentCellsFor(coin);
+    const contentOfAdjacentCells = [];
+    for (const adjacentCell of adjacentCells) {
+        const adjacentCellContent = getCellByCoordinates(adjacentCell[0], adjacentCell[1]).textContent;
+        contentOfAdjacentCells.push(adjacentCellContent);
     }
-    return purgedCoordinates;
+    return contentOfAdjacentCells;
 }
 
 
@@ -159,6 +84,47 @@ function getAdjacentCellsFor(element) {
     ]
     const adjacentCellsPurged = purgeOutOfBound(adjacentCells);
     return adjacentCellsPurged;
+}
+
+
+function purgeOutOfBound(coordinate_pairs) {
+    const purgedCoordinates = [];
+    for (const coordinate_pair of coordinate_pairs) {
+        if (
+            (coordinate_pair[0] < 0 || coordinate_pair[0] > 6) ||
+            (coordinate_pair[1] < 0 || coordinate_pair[1] > 7)
+        ) {
+            continue;
+        } else {
+            purgedCoordinates.push(coordinate_pair);
+        }
+    }
+    return purgedCoordinates;
+}
+
+
+function isIterable(obj) {
+    if (obj == null) {
+        return false;
+    }
+    return typeof obj[Symbol.iterator] === 'function';
+}
+
+
+function addEventListenerTo(object, event, callback) {
+    if (isIterable(object)) {
+        for (const element of object) {
+            element.addEventListener(event, callback);
+        }
+    } else {
+        object.addEventListener(event, callback);
+    }
+}
+
+
+function handleClick() {
+    const coins = getCoins();
+    setAttributeOfBlocked(coins);
 }
 
 
