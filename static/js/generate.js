@@ -1,30 +1,11 @@
 //---------------DRAGULA-----------------------------------------------------
 function addDragulaToElements() {
     const cells = Array.from(document.querySelectorAll(".cell"));
-    dragula(cells, {
-        accepts: function (el, target) {
-            return !target.innerHTML || el.firstChild.textContent === target.firstChild.textContent;
-        }
-    }).on('drop', function (el, target) {
-        const targetCoin = target.querySelector('.coin .gu-hide');
-        if (targetCoin) {
-            targetCoin.remove();
-        }
-        setCoinCoord(el);
-    }).on('over', function (el, container) {
-        const targetCoin = container.querySelector('.coin');
-        if (!targetCoin || el === targetCoin) {
-        } else if (el.firstChild.textContent === targetCoin.firstChild.textContent) {
-            targetCoin.classList.add('gu-hide');
-            el.firstChild.textContent = (Number(el.firstChild.textContent) + 1).toString();
-        }
-    }).on('out', function (el, container) {
-        const targetCoin = container.querySelector('.coin .gu-hide');
-        if (targetCoin) {
-            el.firstChild.textContent = (targetCoin.firstChild.textContent).toString();
-            targetCoin.classList.remove('gu-hide');
-        }
-    });
+    dragula(cells)
+        .on('drop', function (el) {
+            setCoinCoord(el);
+        });
+
 }
 
 //---------------SHIFTING ROWS UP--------------------------------------------
@@ -76,7 +57,7 @@ function handleRows() {
         generateRow();
 
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 100);
+        let timeHandler = setInterval(decreaseTime, 10);
 
         function decreaseTime() {
             if (width <= 0) {
