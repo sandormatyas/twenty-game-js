@@ -331,6 +331,10 @@ function checkWin(coin) {
 }
 
 //---------------SHIFTING ROWS AND COINS------------------------------------------
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function refreshDrop() {
     const coins = getCoins();
     const coinsLength = coins.length;
@@ -339,7 +343,7 @@ function refreshDrop() {
     }
 }
 
-function dropCoin(coin) {
+async function dropCoin(coin) {
     while (thereIsSpaceBelow(coin)) {
         const newRow = parseInt(coin.dataset.row) + 1;
         const column = parseInt(coin.dataset.col);
@@ -352,6 +356,7 @@ function dropCoin(coin) {
 
         setCoinCoord(coin);
         updateCellsAfterRowGeneration();
+        await sleep(50);
     }
 }
 
@@ -371,6 +376,7 @@ function thereIsSpaceBelow(coin) {
             cellBelow.dataset.number = newNumber.toString();
             coin.firstChild.textContent = newNumber.toString();
             coin.dataset.color = newNumber.toString();
+            checkWin(coin);
             return true
         } else {return false}
     } else {
@@ -441,7 +447,11 @@ function Board() {
 }
 
 function generateCoin(cell, maxNumber) {
-    const number = Math.floor(Math.random() * maxNumber) + 1;
+    const col = cell.dataset.col;
+    const cellAbove = document.querySelector(`.cell[data-row="6"][data-col="${col}"]`);
+    let number;
+    do { number = Math.floor(Math.random() * maxNumber) + 1;} while (cellAbove.hasChildNodes() && number.toString() === cellAbove.firstChild.firstChild.textContent);
+
     const coin = document.createElement('DIV');
     coin.classList.add('coin');
     coin.setAttribute('draggable', 'true');
