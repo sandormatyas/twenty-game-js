@@ -1,5 +1,4 @@
 .cell {
-    cursor: grab;
     /*border: solid 1px black;*/
     /*border-radius: 5px;*/
     display: inline-block;
@@ -9,11 +8,11 @@
 }
 
 .coin {
+    cursor: grab;
     display: flex;
     justify-content: center;
     align-items: center;
     border: black solid;
-    cursor: pointer;
     width: 100%;
     height: 100%;
     border-radius: 5px;
