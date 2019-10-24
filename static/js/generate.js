@@ -174,6 +174,7 @@ function clearDragData() {
     const gameBoard = getGameBoard();
     gameBoard.dataset.dragSource = '';
     gameBoard.dataset.dragNumber = '';
+    gameBoard.dataset.dragTarget = '';
 }
 
 function getDragSource() {
@@ -186,14 +187,24 @@ function getDragSourceCell() {
     return document.getElementById(dragSource);
 }
 
+function getDragHTML() {
+    const dragSourceCell = getDragSourceCell();
+    return dragSourceCell.innerHTML;
+}
+
 function getDragNumber() {
     const gameBoard = getGameBoard();
     return gameBoard.dataset.dragNumber;
 }
 
+function getDragTargetCell() {
+    const gameBoard = getGameBoard();
+    const dragTargetId = gameBoard.dataset.dragTarget;
+    return document.getElementById(dragTargetId);
+}
+
 function insertDraggedCoin(cell) {
-    const sourceCell = getDragSourceCell();
-    cell.innerHTML = sourceCell.innerHTML;
+    cell.innerHTML = getDragHTML();
     setCoinCoord(cell.firstChild);
     setUpCoin(cell.firstChild);
 }
@@ -242,6 +253,8 @@ function setUpCells() {
             event.preventDefault();
             if (this.classList.contains('empty') || this.classList.contains('match')) {
                 handleValidDrop(this);
+                const gameBoard = getGameBoard();
+                gameBoard.dataset.dragTarget = this.id;
             }
         })
     }
@@ -264,6 +277,12 @@ function setUpCoin(coin) {
         const cells = getCells();
         for (const cell of cells) {
             cell.classList.remove('match', 'empty', 'over');
+            if (cell.dataset.number && !cell.innerHTML) {
+                const targetCell = getDragTargetCell();
+                cell.innerHTML = targetCell.innerHTML;
+                setCoinCoord(cell.firstChild);
+                console.log('handled');
+            }
         }
         clearDragData();
     });
@@ -387,15 +406,15 @@ function handleRowGeneration() {
             shiftCoinsUp();
             if (getDragNumber()) {
                 updateDragSourceAfterShift();
+                handleCellWithDragOver();
             }
-            handleCellWithDragOver();
         }
 
         generateRow();
         updateCellsAfterRowGeneration();
 
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 20);
+        let timeHandler = setInterval(decreaseTime, 120);
 
         function decreaseTime() {
             if (width <= 0) {
