@@ -324,6 +324,10 @@ function generateRow() {
             cell.dataset.number = '';
         }
     }
+    const coins = getCoins();
+    for (const coin of coins) {
+        coin.dataset.blocked = coinBlocked(coin) ? 'true' : 'false';
+    }
 }
 
 function updateDragSourceAfterShift() {
