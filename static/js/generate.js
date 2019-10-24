@@ -202,7 +202,7 @@ function handleRows() {
 
 
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 15);
+        let timeHandler = setInterval(decreaseTime, 100);
 
         function decreaseTime() {
             if (width <= 0) {
