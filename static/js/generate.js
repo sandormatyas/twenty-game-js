@@ -283,20 +283,18 @@ function checkWin(coin) {
 //---------------SHIFTING ROWS AND COINS------------------------------------------
 function dropCoin(coin) {
     const currentRow = parseInt(coin.dataset.row);
-    if (currentRow < 7) {
-        while (thereIsSpaceBelow(coin)) {
-            const newRow = parseInt(coin.dataset.row) + 1;
-            const column = parseInt(coin.dataset.col);
+    while (thereIsSpaceBelow(coin)) {
+        const newRow = parseInt(coin.dataset.row) + 1;
+        const column = parseInt(coin.dataset.col);
 
-            const fragment = document.createDocumentFragment();
-            fragment.appendChild(coin);
+        const fragment = document.createDocumentFragment();
+        fragment.appendChild(coin);
 
-            const newCell = getCellByCoordinates2(newRow, column);
-            newCell.appendChild(fragment);
+        const newCell = getCellByCoordinates2(newRow, column);
+        newCell.appendChild(fragment);
 
-            setCoinCoord(coin);
-            updateDataAttrOfCells();
-        }
+        setCoinCoord(coin);
+        updateDataAttrOfCells();
     }
 }
 
@@ -407,7 +405,7 @@ function handleRowGeneration() {
             updateDragSourceAfterShift();
         }
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 30);
+        let timeHandler = setInterval(decreaseTime, 15);
 
         function decreaseTime() {
             if (width <= 0) {
