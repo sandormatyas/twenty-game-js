@@ -55,16 +55,16 @@ function getContentOfAdjacentCellsFor(coin) {
 }
 
 
-function getAdjacentCellsFor(element) {
-    const elementCoordinates = getCellCoordinates(element);
-    const elementX = elementCoordinates[0];
-    const elementY = elementCoordinates[1];
-    const rowAbove = elementY - 1;
-    const sameRow = elementY;
-    const rowBelow = elementY + 1;
-    const previousColumn = elementX - 1;
-    const sameColumn = elementX;
-    const nextColumn = elementX + 1;
+function getAdjacentCellsFor(coin) {
+    const coinCoordinates = getCellCoordinatesOf(coin);
+    const coinX = coinCoordinates[0];
+    const coinY = coinCoordinates[1];
+    const rowAbove = coinY - 1;
+    const sameRow = coinY;
+    const rowBelow = coinY + 1;
+    const previousColumn = coinX - 1;
+    const sameColumn = coinX;
+    const nextColumn = coinX + 1;
     const adjacentCells = [
         [sameColumn, rowAbove],
         [previousColumn, sameRow],
@@ -364,7 +364,6 @@ function handleRowGeneration() {
         generateRow();
 
         if (getDragNumber()) {
-            console.log('set source');
             updateDragSourceAfterShift();
         }
         let width = 100;
