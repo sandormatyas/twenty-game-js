@@ -207,6 +207,7 @@ function handleValidDrop(cell) {
         const newNumber = Number(cell.dataset.number) + 1;
         cell.dataset.number = newNumber.toString();
         newCoin.firstChild.textContent = newNumber.toString();
+        newCoin.dataset.color = newNumber.toString();
     }
 
     // third: empty the cell where the coin was dragged from
@@ -264,6 +265,15 @@ function setUpCoin(coin) {
     });
 }
 
+//---------------WIN---------------------------------------------------------
+function checkWin(coin) {
+    const num = parseInt(coin.textContent);
+    if (num === 10) {
+        alert("You've won!");
+        clearCells();
+    }
+}
+
 //---------------SHIFTING ROWS UP--------------------------------------------
 function setCoinCoord(coin) {
     coin.dataset.row = coin.parentNode.dataset.row;
@@ -307,6 +317,7 @@ function generateCoin(cell, maxNumber) {
     coin.setAttribute('draggable', 'true');
     coin.dataset.row = cell.dataset.row;
     coin.dataset.col = cell.dataset.col;
+    coin.dataset.color = number.toString();
     coin.innerHTML = `<div class="number">${number}</div>`;
     return coin;
 }
