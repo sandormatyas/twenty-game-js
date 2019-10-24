@@ -282,7 +282,6 @@ function checkWin(coin) {
 
 //---------------SHIFTING ROWS AND COINS------------------------------------------
 function dropCoin(coin) {
-    const currentRow = parseInt(coin.dataset.row);
     while (thereIsSpaceBelow(coin)) {
         const newRow = parseInt(coin.dataset.row) + 1;
         const column = parseInt(coin.dataset.col);
