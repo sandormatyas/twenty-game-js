@@ -414,6 +414,7 @@ function handleRowGeneration() {
         if (loseCheck()) {
             clearCells();
             generateRow();
+            shiftCoinsUp();
         } else {
             shiftCoinsUp();
             if (getDragNumber()) {
