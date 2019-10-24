@@ -1,8 +1,8 @@
 // ---------------SET ATTRIBUTE OF SURROUNDED BLOCKS-----------------------------
-function getCellCoordinates(cell) {
+function getCellCoordinatesOf(coin) {
     const coordinates = [];
-    const x = cell.dataset.col;
-    const y = cell.dataset.row;
+    const x = coin.dataset.col;
+    const y = coin.dataset.row;
     coordinates.push(Number(x));
     coordinates.push(Number(y));
     return coordinates;
