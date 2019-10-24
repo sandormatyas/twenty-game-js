@@ -6,7 +6,7 @@
     <div id="game-title">
         <h1>Ten-ny</h1>
     </div>
-    <div class="mx-auto game-board" id="main-game-board">
+    <div class="mx-auto game-board" id="main-game-board" data-drag-source="" data-drag-number="">
         <div id="timer-container">
             <div id="timer">
                 <div id="timer-bar"></div>
@@ -16,7 +16,7 @@
             {% for row in range(8) %}
                 <div class="row">
                     {% for column in range(7) %}
-                        <div class="cell" data-col="{{ column }}" data-row="{{ row }}"></div>
+                        <div class="cell" data-col="{{ column }}" data-row="{{ row }}" id="r{{ row }}c{{ column }}"></div>
                     {% endfor %}
                 </div>
             {% endfor %}
