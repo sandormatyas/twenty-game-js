@@ -363,7 +363,17 @@ function thereIsSpaceBelow(coin) {
     const rowBelow = currentRow + 1;
     const colBelow = coin.dataset.col;
     const cellBelow = getCellByCoordinates2(rowBelow, colBelow);
-    if (!cellBelow.hasChildNodes()) {
+    if (cellBelow.hasChildNodes()) {
+        const numBelow = cellBelow.firstChild.firstChild.textContent;
+        if (numBelow === coin.firstChild.textContent){
+            cellBelow.firstChild.remove();
+            const newNumber = Number(cellBelow.dataset.number) + 1;
+            cellBelow.dataset.number = newNumber.toString();
+            coin.firstChild.textContent = newNumber.toString();
+            coin.dataset.color = newNumber.toString();
+            return true
+        } else {return false}
+    } else {
         return true
     }
 }
@@ -456,6 +466,7 @@ function generateRow() {
     for (const coin of coins) {
         coin.dataset.blocked = coinBlocked(coin) ? 'true' : 'false';
     }
+    refreshDrop();
 }
 
 function updateDragSourceAfterShift() {
