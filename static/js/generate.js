@@ -367,7 +367,7 @@ function handleRowGeneration() {
             updateDragSourceAfterShift();
         }
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 10);
+        let timeHandler = setInterval(decreaseTime, 50);
 
         function decreaseTime() {
             if (width <= 0) {
