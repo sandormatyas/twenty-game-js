@@ -260,6 +260,16 @@ function setUpCells() {
     }
 }
 
+function generateCoinWithNumber(number) {
+    const coin = document.createElement('DIV');
+    coin.classList.add('coin');
+    coin.setAttribute('draggable', 'true');
+    coin.innerHTML = `<div class="number">${number}</div>`;
+    coin.dataset.color = number.toString();
+    setUpCoin(coin);
+    return coin;
+}
+
 function setUpCoin(coin) {
     coin.addEventListener('dragstart', function () {
         const cells = getCells();
@@ -278,9 +288,10 @@ function setUpCoin(coin) {
         for (const cell of cells) {
             cell.classList.remove('match', 'empty', 'over');
             if (cell.dataset.number && !cell.innerHTML) {
-                const targetCell = getDragTargetCell();
-                cell.innerHTML = targetCell.innerHTML;
+                const coin = generateCoinWithNumber(cell.dataset.number);
+                cell.appendChild(coin);
                 setCoinCoord(cell.firstChild);
+                coin.dataset.blocked = coinBlocked(coin) ? 'true' : 'false';
                 console.log('handled');
             }
         }
