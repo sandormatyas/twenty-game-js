@@ -207,6 +207,7 @@ function handleValidDrop(cell) {
         const newNumber = Number(cell.dataset.number) + 1;
         cell.dataset.number = newNumber.toString();
         newCoin.firstChild.textContent = newNumber.toString();
+        newCoin.dataset.color = newNumber.toString();
     }
 
     // third: empty the cell where the coin was dragged from
