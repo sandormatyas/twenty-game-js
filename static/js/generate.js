@@ -228,6 +228,7 @@ function handleValidDrop(cell) {
     const sourceCell = getDragSourceCell();
     sourceCell.innerHTML = '';
     sourceCell.dataset.number = '';
+    checkWin(newCoin);
 }
 
 function setUpCells() {
@@ -255,6 +256,11 @@ function setUpCells() {
                 handleValidDrop(this);
                 const gameBoard = getGameBoard();
                 gameBoard.dataset.dragTarget = this.id;
+                const coins = getCoins();
+                const coinsLength = coins.length;
+                for (let i = coinsLength - 1; i >= 0; i--) {
+                    dropCoin(coins[i]);
+                }
             }
         })
     }
@@ -308,7 +314,37 @@ function checkWin(coin) {
     }
 }
 
-//---------------SHIFTING ROWS UP--------------------------------------------
+//---------------SHIFTING ROWS AND COINS------------------------------------------
+function dropCoin(coin) {
+    while (thereIsSpaceBelow(coin)) {
+        const newRow = parseInt(coin.dataset.row) + 1;
+        const column = parseInt(coin.dataset.col);
+
+        const fragment = document.createDocumentFragment();
+        fragment.appendChild(coin);
+
+        const newCell = getCellByCoordinates2(newRow, column);
+        newCell.appendChild(fragment);
+
+        setCoinCoord(coin);
+        updateDataAttrOfCells();
+    }
+}
+
+function thereIsSpaceBelow(coin) {
+    const currentRow = parseInt(coin.dataset.row);
+    if (currentRow === 7) {
+        return false
+    }
+    const rowBelow = currentRow + 1;
+    const colBelow = coin.dataset.col;
+    const cellBelow = getCellByCoordinates2(rowBelow, colBelow);
+    if (!cellBelow.hasChildNodes()) {
+        return true
+    }
+}
+
+
 function setCoinCoord(coin) {
     coin.dataset.row = coin.parentNode.dataset.row;
     coin.dataset.col = coin.parentNode.dataset.col;
@@ -347,6 +383,7 @@ function shiftCoinsUp() {
         newCell.appendChild(fragment);
 
         setCoinCoord(coin);
+        updateCellsAfterRowGeneration()
     }
 }
 
