@@ -415,7 +415,7 @@ function handleRowGeneration() {
         updateCellsAfterRowGeneration();
 
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 120);
+        let timeHandler = setInterval(decreaseTime, 25);
 
         function decreaseTime() {
             if (width <= 0) {
