@@ -256,13 +256,9 @@ function setUpCells() {
                 handleValidDrop(this);
                 const gameBoard = getGameBoard();
                 gameBoard.dataset.dragTarget = this.id;
-                const coins = getCoins();
-                const coinsLength = coins.length;
-                for (let i = coinsLength - 1; i >= 0; i--) {
-                    dropCoin(coins[i]);
+                refreshDrop();
                 }
-            }
-        })
+            })
     }
 }
 
@@ -308,13 +304,21 @@ function setUpCoin(coin) {
 //---------------WIN---------------------------------------------------------
 function checkWin(coin) {
     const num = parseInt(coin.textContent);
-    if (num === 10) {
+    if (num === 6) {
         alert("You've won!");
         clearCells();
     }
 }
 
 //---------------SHIFTING ROWS AND COINS------------------------------------------
+function refreshDrop() {
+    const coins = getCoins();
+    const coinsLength = coins.length;
+    for (let i = coinsLength - 1; i >= 0; i--) {
+        dropCoin(coins[i]);
+    }
+}
+
 function dropCoin(coin) {
     while (thereIsSpaceBelow(coin)) {
         const newRow = parseInt(coin.dataset.row) + 1;
@@ -327,7 +331,7 @@ function dropCoin(coin) {
         newCell.appendChild(fragment);
 
         setCoinCoord(coin);
-        updateDataAttrOfCells();
+        updateCellsAfterRowGeneration();
     }
 }
 
