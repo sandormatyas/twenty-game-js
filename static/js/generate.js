@@ -402,6 +402,7 @@ function handleRowGeneration() {
     timerBar.addEventListener('timesUp', function (event) {
         if (loseCheck()) {
             clearCells();
+            generateRow();
         } else {
             shiftCoinsUp();
             if (getDragNumber()) {
