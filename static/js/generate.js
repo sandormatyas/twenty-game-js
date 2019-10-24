@@ -92,6 +92,18 @@ function purgeOutOfBound(coordinate_pairs) {
 }
 
 
+function setBlockedCoinsNotDraggable() {
+    const coins = getCoins();
+    for (const coin of coins) {
+        if (coin.dataset.blocked === 'false') {
+            coin.setAttribute('draggable', 'true');
+        } else {
+            coin.setAttribute('draggable', 'false');
+        }
+    }
+}
+
+
 function setMutationObserver() {
     const targetNode = document.querySelector('#main-game-board');
     const config = {attributes: true, childList: false, subtree: true};
@@ -100,11 +112,12 @@ function setMutationObserver() {
             if (mutation.attributeName === 'data-row' ||
                 mutation.attributeName === 'data-col'
             ) {
-                const coins = getCoins();
+                let coins = getCoins();
                 setBlockedAttributeOf(coins);
+                setBlockedCoinsNotDraggable();
+              }
                 break;
             }
-        }
     };
     const observer = new MutationObserver(callback);
     observer.observe(targetNode, config);
@@ -252,8 +265,7 @@ function setUpCoin(coin) {
                 cell.classList.add('match');
             } else if (!cell.firstChild) {
                 cell.classList.add('empty');
-            }
-        }
+        }}
     });
     coin.addEventListener('dragend', function () {
         const cells = getCells();
@@ -367,7 +379,7 @@ function handleRowGeneration() {
             updateDragSourceAfterShift();
         }
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 50);
+        let timeHandler = setInterval(decreaseTime, 20);
 
         function decreaseTime() {
             if (width <= 0) {
