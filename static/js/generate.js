@@ -1,4 +1,13 @@
 // ---------------SET ATTRIBUTE OF SURROUNDED BLOCKS-----------------------------
+function getCellCoordinates(cell) {
+    const coordinates = [];
+    const x = cell.dataset.col;
+    const y = cell.dataset.row;
+    coordinates.push(Number(x));
+    coordinates.push(Number(y));
+    return coordinates;
+}
+
 function getCellCoordinatesOf(coin) {
     const coordinates = [];
     const x = coin.dataset.col;
@@ -107,7 +116,7 @@ function setBlockedCoinsNotDraggable() {
 function setMutationObserver() {
     const targetNode = document.querySelector('#main-game-board');
     const config = {attributes: true, childList: false, subtree: true};
-    const callback = function(mutationsList) {
+    const callback = function (mutationsList) {
         for (const mutation of mutationsList) {
             if (mutation.attributeName === 'data-row' ||
                 mutation.attributeName === 'data-col'
@@ -168,6 +177,9 @@ function getCoinNumber(coin) {
 }
 
 function getCoinNumberInCell(cell) {
+    // if (cell.dataset.row === '7') {
+    //     console.log(cell.innerHTML);
+    // }
     return cell.firstChild ? getCoinNumber(cell.firstChild) : '';
 }
 
@@ -184,6 +196,7 @@ function clearDragData() {
     const gameBoard = getGameBoard();
     gameBoard.dataset.dragSource = '';
     gameBoard.dataset.dragNumber = '';
+    gameBoard.dataset.dragTarget = '';
 }
 
 function getDragSource() {
@@ -196,14 +209,24 @@ function getDragSourceCell() {
     return document.getElementById(dragSource);
 }
 
+function getDragHTML() {
+    const dragSourceCell = getDragSourceCell();
+    return dragSourceCell.innerHTML;
+}
+
 function getDragNumber() {
     const gameBoard = getGameBoard();
     return gameBoard.dataset.dragNumber;
 }
 
+function getDragTargetCell() {
+    const gameBoard = getGameBoard();
+    const dragTargetId = gameBoard.dataset.dragTarget;
+    return document.getElementById(dragTargetId);
+}
+
 function insertDraggedCoin(cell) {
-    const sourceCell = getDragSourceCell();
-    cell.innerHTML = sourceCell.innerHTML;
+    cell.innerHTML = getDragHTML();
     setCoinCoord(cell.firstChild);
     setUpCoin(cell.firstChild);
 }
@@ -227,6 +250,7 @@ function handleValidDrop(cell) {
     const sourceCell = getDragSourceCell();
     sourceCell.innerHTML = '';
     sourceCell.dataset.number = '';
+    checkWin(newCoin);
 }
 
 function setUpCells() {
@@ -235,12 +259,14 @@ function setUpCells() {
         cell.addEventListener('dragenter', function () {
             if (this.classList.contains('match')) {
                 this.innerHTML = '';
+                this.classList.add('over');
             }
         });
         cell.addEventListener('dragleave', function () {
             event.preventDefault();
             if (this.classList.contains('match')) {
                 insertDraggedCoin(this);
+                this.classList.remove('over');
             }
         });
         cell.addEventListener('dragover', function () {
@@ -250,9 +276,22 @@ function setUpCells() {
             event.preventDefault();
             if (this.classList.contains('empty') || this.classList.contains('match')) {
                 handleValidDrop(this);
-            }
-        })
+                const gameBoard = getGameBoard();
+                gameBoard.dataset.dragTarget = this.id;
+                refreshDrop();
+                }
+            })
     }
+}
+
+function generateCoinWithNumber(number) {
+    const coin = document.createElement('DIV');
+    coin.classList.add('coin');
+    coin.setAttribute('draggable', 'true');
+    coin.innerHTML = `<div class="number">${number}</div>`;
+    coin.dataset.color = number.toString();
+    setUpCoin(coin);
+    return coin;
 }
 
 function setUpCoin(coin) {
@@ -270,8 +309,13 @@ function setUpCoin(coin) {
     coin.addEventListener('dragend', function () {
         const cells = getCells();
         for (const cell of cells) {
-            cell.classList.remove('match');
-            cell.classList.remove('empty');
+            cell.classList.remove('match', 'empty', 'over');
+            if (cell.dataset.number && !cell.innerHTML) {
+                const coin = generateCoinWithNumber(cell.dataset.number);
+                cell.appendChild(coin);
+                setCoinCoord(cell.firstChild);
+                coin.dataset.blocked = coinBlocked(coin) ? 'true' : 'false';
+            }
         }
         clearDragData();
     });
@@ -280,22 +324,73 @@ function setUpCoin(coin) {
 //---------------WIN---------------------------------------------------------
 function checkWin(coin) {
     const num = parseInt(coin.textContent);
-    if (num === 10) {
+    if (num === 8) {
         alert("You've won!");
         clearCells();
     }
 }
 
-//---------------SHIFTING ROWS UP--------------------------------------------
+//---------------SHIFTING ROWS AND COINS------------------------------------------
+function refreshDrop() {
+    const coins = getCoins();
+    const coinsLength = coins.length;
+    for (let i = coinsLength - 1; i >= 0; i--) {
+        dropCoin(coins[i]);
+    }
+}
+
+function dropCoin(coin) {
+    while (thereIsSpaceBelow(coin)) {
+        const newRow = parseInt(coin.dataset.row) + 1;
+        const column = parseInt(coin.dataset.col);
+
+        const fragment = document.createDocumentFragment();
+        fragment.appendChild(coin);
+
+        const newCell = getCellByCoordinates2(newRow, column);
+        newCell.appendChild(fragment);
+
+        setCoinCoord(coin);
+        updateCellsAfterRowGeneration();
+    }
+}
+
+function thereIsSpaceBelow(coin) {
+    const currentRow = parseInt(coin.dataset.row);
+    if (currentRow === 7) {
+        return false
+    }
+    const rowBelow = currentRow + 1;
+    const colBelow = coin.dataset.col;
+    const cellBelow = getCellByCoordinates2(rowBelow, colBelow);
+    if (!cellBelow.hasChildNodes()) {
+        return true
+    }
+}
+
+
 function setCoinCoord(coin) {
     coin.dataset.row = coin.parentNode.dataset.row;
     coin.dataset.col = coin.parentNode.dataset.col;
 }
 
-function updateDataAttrOfCells() {
+function updateCellsAfterRowGeneration() {
     const cells = getCells();
     for (const cell of cells) {
         cell.dataset.number = getCoinNumberInCell(cell);
+        const dragNumber = getDragNumber();
+
+        if (dragNumber) {
+            if (cell.dataset.number === dragNumber) {
+                cell.classList.remove('empty');
+                cell.classList.add('match');
+            } else if (cell.dataset.number) {
+                cell.classList.remove('empty', 'match');
+            } else {
+                cell.classList.remove('match');
+                cell.classList.add('empty');
+            }
+        }
     }
 }
 
@@ -312,8 +407,21 @@ function shiftCoinsUp() {
         newCell.appendChild(fragment);
 
         setCoinCoord(coin);
+        updateCellsAfterRowGeneration()
     }
-    updateDataAttrOfCells();
+}
+
+function handleCellWithDragOver() {
+    const cell = document.querySelector('.over');
+    if (!cell) {
+        return;
+    }
+    const rowAbove = Number(cell.dataset.row) - 1;
+    const col = Number(cell.dataset.col);
+    const cellAbove = getCellByCoordinates2(rowAbove, col);
+    const dragSourceCell = getDragSourceCell();
+    cellAbove.innerHTML = dragSourceCell.innerHTML;
+    setCoinCoord(cellAbove.firstChild);
 }
 
 //-----------------TIMER + GENERATING BOTTOM ROW------------------------------
@@ -341,10 +449,7 @@ function generateRow() {
         if (Number(cell.dataset.row) === board.height - 1) {
             const newCoin = generateCoin(cell, board.maxnumber);
             cell.appendChild(newCoin);
-            cell.dataset.number = getCoinNumber(newCoin);
             setUpCoin(cell.firstChild);
-        } else if (!cell.firstChild) {
-            cell.dataset.number = '';
         }
     }
     const coins = getCoins();
@@ -369,15 +474,19 @@ function handleRowGeneration() {
     timerBar.addEventListener('timesUp', function (event) {
         if (loseCheck()) {
             clearCells();
+            generateRow();
+            shiftCoinsUp();
         } else {
             shiftCoinsUp();
+            if (getDragNumber()) {
+                updateDragSourceAfterShift();
+                handleCellWithDragOver();
+            }
         }
 
         generateRow();
+        updateCellsAfterRowGeneration();
 
-        if (getDragNumber()) {
-            updateDragSourceAfterShift();
-        }
         let width = 100;
         let timeHandler = setInterval(decreaseTime, 20);
 
@@ -393,6 +502,7 @@ function handleRowGeneration() {
         }
 
     });
+    generateRow();
     timerBar.dispatchEvent(timesUp);
 }
 
