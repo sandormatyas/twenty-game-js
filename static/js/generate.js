@@ -95,7 +95,7 @@ function purgeOutOfBound(coordinate_pairs) {
 function setMutationObserver() {
     const targetNode = document.querySelector('#main-game-board');
     const config = {attributes: true, childList: false, subtree: true};
-    const callback = function(mutationsList) {
+    const callback = function (mutationsList) {
         for (const mutation of mutationsList) {
             if (mutation.attributeName === 'data-row' ||
                 mutation.attributeName === 'data-col'
@@ -155,6 +155,9 @@ function getCoinNumber(coin) {
 }
 
 function getCoinNumberInCell(cell) {
+    // if (cell.dataset.row === '7') {
+    //     console.log(cell.innerHTML);
+    // }
     return cell.firstChild ? getCoinNumber(cell.firstChild) : '';
 }
 
@@ -280,10 +283,23 @@ function setCoinCoord(coin) {
     coin.dataset.col = coin.parentNode.dataset.col;
 }
 
-function updateDataAttrOfCells() {
+function updateCellsAfterRowGeneration() {
     const cells = getCells();
     for (const cell of cells) {
         cell.dataset.number = getCoinNumberInCell(cell);
+        const dragNumber = getDragNumber();
+
+        if (dragNumber) {
+            if (cell.dataset.number === dragNumber) {
+                cell.classList.remove('empty');
+                cell.classList.add('match');
+            } else if (cell.dataset.number) {
+                cell.classList.remove('empty', 'match');
+            } else {
+                cell.classList.remove('match');
+                cell.classList.add('empty');
+            }
+        }
     }
 }
 
@@ -301,7 +317,6 @@ function shiftCoinsUp() {
 
         setCoinCoord(coin);
     }
-    updateDataAttrOfCells();
 }
 
 //-----------------TIMER + GENERATING BOTTOM ROW------------------------------
@@ -329,10 +344,7 @@ function generateRow() {
         if (Number(cell.dataset.row) === board.height - 1) {
             const newCoin = generateCoin(cell, board.maxnumber);
             cell.appendChild(newCoin);
-            cell.dataset.number = getCoinNumber(newCoin);
             setUpCoin(cell.firstChild);
-        } else if (!cell.firstChild) {
-            cell.dataset.number = '';
         }
     }
     const coins = getCoins();
@@ -362,13 +374,13 @@ function handleRowGeneration() {
         }
 
         generateRow();
+        updateCellsAfterRowGeneration();
 
         if (getDragNumber()) {
-            console.log('set source');
             updateDragSourceAfterShift();
         }
         let width = 100;
-        let timeHandler = setInterval(decreaseTime, 10);
+        let timeHandler = setInterval(decreaseTime, 20);
 
         function decreaseTime() {
             if (width <= 0) {
