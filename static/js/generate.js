@@ -225,12 +225,14 @@ function setUpCells() {
         cell.addEventListener('dragenter', function () {
             if (this.classList.contains('match')) {
                 this.innerHTML = '';
+                this.classList.add('over');
             }
         });
         cell.addEventListener('dragleave', function () {
             event.preventDefault();
             if (this.classList.contains('match')) {
                 insertDraggedCoin(this);
+                this.classList.remove('over');
             }
         });
         cell.addEventListener('dragover', function () {
@@ -261,8 +263,7 @@ function setUpCoin(coin) {
     coin.addEventListener('dragend', function () {
         const cells = getCells();
         for (const cell of cells) {
-            cell.classList.remove('match');
-            cell.classList.remove('empty');
+            cell.classList.remove('match', 'empty', 'over');
         }
         clearDragData();
     });
@@ -319,6 +320,19 @@ function shiftCoinsUp() {
     }
 }
 
+function handleCellWithDragOver() {
+    const cell = document.querySelector('.over');
+    if (!cell) {
+        return;
+    }
+    const rowAbove = Number(cell.dataset.row) - 1;
+    const col = Number(cell.dataset.col);
+    const cellAbove = getCellByCoordinates2(rowAbove, col);
+    const dragSourceCell = getDragSourceCell();
+    cellAbove.innerHTML = dragSourceCell.innerHTML;
+    setCoinCoord(cellAbove.firstChild);
+}
+
 //-----------------TIMER + GENERATING BOTTOM ROW------------------------------
 function Board() {
     this.height = 8;
@@ -371,14 +385,15 @@ function handleRowGeneration() {
             clearCells();
         } else {
             shiftCoinsUp();
+            if (getDragNumber()) {
+                updateDragSourceAfterShift();
+            }
+            handleCellWithDragOver();
         }
 
         generateRow();
         updateCellsAfterRowGeneration();
 
-        if (getDragNumber()) {
-            updateDragSourceAfterShift();
-        }
         let width = 100;
         let timeHandler = setInterval(decreaseTime, 20);
 
@@ -394,6 +409,7 @@ function handleRowGeneration() {
         }
 
     });
+    generateRow();
     timerBar.dispatchEvent(timesUp);
 }
 
