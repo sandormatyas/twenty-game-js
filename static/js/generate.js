@@ -324,7 +324,7 @@ function setUpCoin(coin) {
 //---------------WIN---------------------------------------------------------
 function checkWin(coin) {
     const num = parseInt(coin.textContent);
-    if (num === 10) {
+    if (num === 7) {
         alert("You've won!");
         window.location.reload();
     }
